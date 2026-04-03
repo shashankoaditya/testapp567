@@ -5,7 +5,7 @@ from openai import OpenAI
 MODEL_NAME = "gpt-4.1-mini"
 USD_TO_INR = 83  # approx conversion
 
-# Pricing (update if OpenAI changes)
+# Pricing (update if needed)
 INPUT_COST_PER_1K = 0.00015
 OUTPUT_COST_PER_1K = 0.0006
 
@@ -14,29 +14,44 @@ client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 # ---- PAGE CONFIG ----
 st.set_page_config(page_title="SAP T-Code Explorer", layout="wide")
 
-# ---- CUSTOM CSS (VIBRANT UI) ----
+# ---- IMPROVED CSS (FIXED VISIBILITY) ----
 st.markdown("""
     <style>
     body {
         background-color: #0e1117;
-        color: white;
+        color: #ffffff;
     }
+
     .stTextInput > div > div > input {
         background-color: #1f2937;
-        color: white;
+        color: #ffffff;
         border-radius: 10px;
+        border: 1px solid #374151;
     }
+
     .stButton button {
         border-radius: 10px;
         background-color: #2563eb;
         color: white;
         font-weight: bold;
     }
+
     .metric-box {
         background-color: #1f2937;
         padding: 15px;
         border-radius: 12px;
-        margin-bottom: 10px;
+        margin-bottom: 12px;
+        color: #ffffff;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+    .metric-box b {
+        color: #60a5fa;
+    }
+
+    h1, h2, h3, h4 {
+        color: #ffffff;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -82,7 +97,7 @@ with left_col:
                     result = response.choices[0].message.content
                     usage = response.usage
 
-                    # Save in session
+                    # Save state
                     st.session_state.response = result
                     st.session_state.usage = usage
             else:
